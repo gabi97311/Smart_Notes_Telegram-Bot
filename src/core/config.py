@@ -11,6 +11,7 @@ class Settings(BaseSettings):
     static_dir: str = 'static'
     DATABASE_URL: str
     BOT_TOKEN: str
+    GEMINI_API_KEY: str
     
     model_config = SettingsConfigDict(
         env_file='.env',

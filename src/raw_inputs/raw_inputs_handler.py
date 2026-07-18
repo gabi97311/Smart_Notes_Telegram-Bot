@@ -23,3 +23,4 @@ async def create_raw_input(message: Message, services: ServiceConteiner):
     
     if response_text is not None:
         await message.answer(response_text)
+    

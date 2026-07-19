@@ -20,3 +20,5 @@ class RawInputsModel(Base):
     raw_text: Mapped[str | None]
     voice_file_id: Mapped[str | None] 
     create_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    
+    gpt_annotations: Mapped[list["GptAnnotationsModel"]] = relationship(back_populates='raw_inputs')

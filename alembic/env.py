@@ -9,6 +9,7 @@ from alembic import context
 
 from src.core import setting, Base
 from src.raw_inputs.raw_inputs_model import RawInputsModel
+from src.gpt_annotations import GptAnnotationsModel
 
 config = context.config
 config.set_main_option("sqlalchemy.url",setting.DATABASE_URL)

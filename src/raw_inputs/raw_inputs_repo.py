@@ -8,8 +8,8 @@ class RawInputsRepo:
     def __init__(self, session: AsyncSession):
         self.session = session
         
-    async def create_raw_input(self, data: RawInputsScheme):
-        raw_model = RawInputsModel(**data.model_dump())
+    async def create_raw_input(self, raw_scheme: RawInputsScheme) -> RawInputsModel | None:
+        raw_model = RawInputsModel(**raw_scheme.model_dump())
         self.session.add(raw_model)
         try:
             await self.session.commit()

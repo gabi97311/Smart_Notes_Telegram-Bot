@@ -6,6 +6,7 @@ from aiogram.types import Message
 from typing import Callable, Awaitable, Any, Optional
 
 from src.raw_inputs import RawInputsRepo, RawInputsService
+from src.gpt_annotations import GptAnnotataionRepo, GptAnnotataionService
 
 
 class DBSessionMiddleware(BaseMiddleware):
@@ -26,15 +27,23 @@ class DBSessionMiddleware(BaseMiddleware):
 class ServiceConteiner:
 
     def __init__(self, session: AsyncSession):
-        self.session = session
+        self._session = session
         
         self._raw_inputs: Optional[RawInputsService] = None
+        self._gpt_annotation: Optional[GptAnnotataionService] = None
         
     @property
     def raw_inputs(self) -> RawInputsService:
         if self._raw_inputs is None: 
-            repo = RawInputsRepo(self.session)
+            repo = RawInputsRepo(self._session)
             self._raw_inputs = RawInputsService(repo)
         return self._raw_inputs
+    
+    @property
+    def gpt_annotation(self) -> GptAnnotataionService:
+        if self._gpt_annotation is None:
+            repo = GptAnnotataionRepo(self._session)
+            self._gpt_annotation = GptAnnotataionService(repo)
+        return self._gpt_annotation
     
     

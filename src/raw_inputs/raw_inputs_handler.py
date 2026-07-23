@@ -7,8 +7,17 @@ from src.raw_inputs.raw_inputs_scheme import RawInputsScheme
 
 router = Router(name="raw_inputs_handler")
 
+
+@router.message(CommandStart())
+async def bot_start(message: Message):
+    await message.answer(
+        f"👋 Привет, {message.from_user.username}!\n\n"
+        "Я помогу сохранять твои идеи, заметки и планы.\n"
+        "Просто отправь мне текст или голосовое сообщение, "
+        "а я структурирую его и сохраню."
+    )
     
-@router.message()
+@router.message(F.text)
 async def create_raw_input(message: Message, services: ServiceConteiner):
     data_scheme = RawInputsScheme(
         telegram_user_id=message.from_user.id,
@@ -22,12 +31,18 @@ async def create_raw_input(message: Message, services: ServiceConteiner):
         data_scheme.voice_file_id = message.voice.file_id
 
     if (raw_input := await services.raw_inputs.create_raw_input(data_scheme)) is None:
-        message.answer("Error 500")
+        return await message.answer("Error 500")
 
     if (
         gpt_annotation := await services.gpt_annotation.create_gpt_annatation(
             raw_input.id, raw_input.raw_text
         )
     ) is None:
-        message.answer("Error 500")
+        return await message.answer("Error 500")
+    
     return message.answer(gpt_annotation.transcribed_text)
+
+@router.message(Command('/ideas'))
+async def get_ideas(message: Message,services: ServiceConteiner):
+    ideas = await services.raw_inputs.get_recent_entries(message.from_user.id)
+    

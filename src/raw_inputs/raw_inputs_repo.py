@@ -19,7 +19,13 @@ class RawInputsRepo:
             await self.session.rollback()
             print(e)
             return None
-            
-    async def get_message_by_id( self, message_id: int):
+    
+    async def get_user_by_id(self, user_id:int):
+        pass
+    
+    async def get_message_by_id(self, message_id: int):
         return await self.session.get(RawInputsModel, message_id)
+    
+    async def get_recent_entries(self):
+        pass
     

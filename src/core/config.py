@@ -3,7 +3,7 @@ from pathlib import Path
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
-model_config = SettingsConfigDict(env_file=BASE_DIR / '.env', extra='ignore')
+ENV_PATH = BASE_DIR / ".env"
 
 class Settings(BaseSettings):
     app_name: str = 'SmartNotes'
@@ -12,9 +12,8 @@ class Settings(BaseSettings):
     DATABASE_URL: str
     BOT_TOKEN: str
     GEMINI_API_KEY: str
-    
     model_config = SettingsConfigDict(
-        env_file='.env',
+        env_file=str(ENV_PATH),
         env_file_encoding='utf-8',
         extra='ignore',
     )

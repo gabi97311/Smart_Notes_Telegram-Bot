@@ -7,7 +7,7 @@ from typing import Callable, Awaitable, Any, Optional
 
 from src.raw_inputs import RawInputsRepo, RawInputsService
 from src.gpt_annotations import GptAnnotataionRepo, GptAnnotataionService
-
+from src.users import UserService, UserRepo
 
 class DBSessionMiddleware(BaseMiddleware):
     def __init__(self, session_pool: async_sessionmaker) -> None:
@@ -31,6 +31,7 @@ class ServiceConteiner:
         
         self._raw_inputs: Optional[RawInputsService] = None
         self._gpt_annotation: Optional[GptAnnotataionService] = None
+        self._users: Optional[UserService] = None
         
     @property
     def raw_inputs(self) -> RawInputsService:
@@ -45,5 +46,11 @@ class ServiceConteiner:
             repo = GptAnnotataionRepo(self._session)
             self._gpt_annotation = GptAnnotataionService(repo)
         return self._gpt_annotation
-    
+
+    @property
+    def users(self) -> UserService:
+        if self._users is None:
+            repo = UserRepo(self._session)
+            self._users = UserService(repo)
+        return self._users
     

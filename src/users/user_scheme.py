@@ -8,11 +8,12 @@ class UserSheme(BaseModel):
     username: str
     first_name: str
 
+
 class UserCreate(UserSheme):
     pass
+
 
 class UserResponse(UserSheme):
     id: int
     created_at: datetime
     is_active: bool
-

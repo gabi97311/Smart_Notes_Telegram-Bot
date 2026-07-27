@@ -11,14 +11,16 @@ from src.core import Base
 
 
 class RawInputsModel(Base):
-    __tablename__ = 'raw_inputs'
-    
-    id: Mapped[int] = mapped_column(primary_key = True, autoincrement= True)
+    __tablename__ = "raw_inputs"
+
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     telegram_user_id: Mapped[int] = mapped_column(BigInteger, nullable=False)
     message_id: Mapped[int]
     content_type: Mapped[str]
     raw_text: Mapped[str | None]
-    voice_file_id: Mapped[str | None] 
+    voice_file_id: Mapped[str | None]
     create_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
-    
-    gpt_annotations: Mapped[list["GptAnnotationsModel"]] = relationship(back_populates='raw_inputs')
+
+    gpt_annotations: Mapped[list["GptAnnotationsModel"]] = relationship(
+        back_populates="raw_inputs"
+    )

@@ -1,6 +1,8 @@
 from src.users.user_repo import UserRepo
 from src.users.user_scheme import UserCreate
-from src.users.user_model import UserModel 
+from src.users.user_model import UserModel
+
+
 class UserService:
     def __init__(self, user_repository: UserRepo):
         self._repo = user_repository
@@ -18,4 +20,3 @@ class UserService:
             return None
 
         return user
-        
